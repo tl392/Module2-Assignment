@@ -21,6 +21,13 @@ def parse_input(line: str):
     """
     parts = line.strip().split()
     if len(parts) != 3:
-        raise ValueError("Format: <number> <operator> <number>")
-    a, op, b = parts
-    return op, float(a), float(b)
+        raise ValueError("Expected input format: <number> <operator> <number>")
+    a_str, op, b_str = parts
+
+    try:
+        a = float(a_str)
+        b = float(b_str)
+    except ValueError as exc:
+        raise ValueError("Operands must be numbers") from exc
+
+    return op, a, b

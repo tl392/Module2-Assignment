@@ -29,3 +29,14 @@ def div(a, b):
     if b == 0:
         raise ZeroDivisionError("Cannot divide by zero")
     return a / b
+
+def mod(a, b):
+    """
+    Return the remainder of a divided by b.
+
+    Raises:
+        ZeroDivisionError: if b is zero.
+    """
+    if b == 0:
+        raise ZeroDivisionError("Cannot modulo by zero")
+    return a % b

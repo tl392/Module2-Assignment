@@ -1,47 +1,56 @@
 """
-Interactive command-line calculator application.
+Interactive calculator runner.
 
-This module wires together input parsing, calculation logic,
-and an infinite input loop to provide a simple CLI calculator.
+This module owns the calculator loop and exposes a single
+entry-point function that can be called from main.py.
 """
 
-from operations import add, sub, mul, div
-from parser import parse_input
+from app.operations import add, sub, mul, div, mod
+from app.parser import parse_input
 
 
-def calculate(op, a, b):
+def calculate(op: str, a: float, b: float) -> float:
+    """Perform a calculation based on the given operator."""
+    operators = {
+        "+": add,
+        "-": sub,
+        "*": mul,
+        "/": div,
+        "%": mod,
+    }
+
+    try:
+        return operators[op](a, b)
+    except KeyError as exc:
+        raise ValueError(f"Unknown operator: {op}") from exc
+
+
+def start_calculator() -> None:
     """
-    Perform a calculation based on the given operator.
+    Start the interactive calculator loop.
 
-    Supported operators: +, -, *, /
-
-    Raises:
-        ValueError: if the operator is unsupported.
+    This function is intended to be called from main.py.
     """
-    if op == "+":
-        return add(a, b)
-    if op == "-":
-        return sub(a, b)
-    if op == "*":
-        return mul(a, b)
-    if op == "/":
-        return div(a, b)
-    raise ValueError("Unknown operator")
-
-
-def main():
-    """
-    Run the calculator in an interactive infinite loop.
-
-    The loop continues until the user enters 'q', 'quit', or 'exit'.
-    """
-    print("Calculator (q to quit)")
+    print(f"""Calculator program started !!!
+    Please enter your input in below format
+        <NUM1> <OPERATOR> <NUM2> => ex: 2 * 2
+    Please use any one of the operator from this list below
+        + - Addition
+        - - Subtraction
+        * - Multiplication
+        / - Division
+        % - Modulo
+    If you want to quit type q or quit or exit""")
     while True:
-        line = input("> ")
+        line = input("> ").strip()
+
         if line.lower() in {"q", "quit", "exit"}:
+            print("Bye!")
             break
+
         try:
             op, a, b = parse_input(line)
-            print(calculate(op, a, b))
+            result = calculate(op, a, b)
+            print(result)
         except Exception as e:
             print(f"Error: {e}")
