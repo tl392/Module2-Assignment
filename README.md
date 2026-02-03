@@ -1,4 +1,4 @@
-# Calculator Program (Python)
+# Python - Module 2 - Assignment - Calculator Program
 
 A simple interactive command-line calculator written in Python.  
 The program is modular, testable, and designed with clean separation of
